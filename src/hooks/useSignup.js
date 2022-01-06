@@ -7,7 +7,7 @@ export const useSignup = () => {
 
   const signup = async (email, password, displayName) => {
     setError(null);
-    isPending(true);
+    setIsPending(true);
 
     try {
       const response = await firebaseAuth.createUserWithEmailAndPassword(
