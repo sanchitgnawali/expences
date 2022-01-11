@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { firebaseAuth } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
 
 export const useSignup = () => {
+  const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
@@ -28,15 +29,21 @@ export const useSignup = () => {
 
       // dispatch login action
       dispatch({ type: "LOGIN", payload: response.user });
-
-      setIsPending(false);
-      setError(null);
+      if (!isCancelled) {
+        setIsPending(false);
+        setError(null);
+      }
     } catch (error) {
       console.log(error.message);
-      setError(error.message);
-      setIsPending(false);
+      if (!isCancelled) {
+        setError(error.message);
+        setIsPending(false);
+      }
     }
   };
 
+  useEffect(() => {
+    return () => setIsCancelled(true);
+  }, []);
   return { isPending, error, signup };
 };
