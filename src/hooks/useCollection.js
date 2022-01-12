@@ -9,7 +9,7 @@ export const useCollection = (collection) => {
     let ref = fireStore.collection(collection);
 
     const unsubs = ref.onSnapshot(
-      () => {
+      (snapshot) => {
         let results = [];
         snapshot.docs.forEach((doc) => {
           results.push({ ...doc.data(), id: doc.id });
