@@ -8,11 +8,11 @@ import TransactionList from "./TransactionList";
 
 export default function Home() {
   const { user } = useAuthContext();
-  const { documents, error } = useCollection("transactions", [
-    "uid",
-    "==",
-    user.uid,
-  ]);
+  const { documents, error } = useCollection(
+    "transactions",
+    ["uid", "==", user.uid],
+    ["createdAt", "desc"]
+  );
   return (
     <div className="container">
       <div className="content">
